@@ -24,7 +24,7 @@ Promise.resolve(
     const items = await agent.aiQuery(
       "{itemTitle: string, price: Number}[]，找出列表中的商品以及对应的价格",
     );
-    console.log("headphones in stock", items);
+    console.log("在售的耳机：", items);
     let question = "页面左侧有商品分类过滤选项";
     let result: "YES" | "NO" | null = null;
     try {
