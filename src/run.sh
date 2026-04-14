@@ -1,1 +1,0 @@
-npx --yes @midscene/android-playground
