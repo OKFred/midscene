@@ -1,0 +1,74 @@
+pnpm run dev
+
+> @ dev D:\workSpace\midscene
+> npx tsx --watch --env-file=.env ./src/index.ts
+
+info ADB Found 0 'build-tools' folders under 'D:\kits\android' (newest first):
+info ADB Using 'adb.exe' from 'D:\kits\android\platform-tools\adb.exe'
+dbug ADB Running 'D:\kits\android\platform-tools\adb.exe -P 5037 start-server'
+dbug ADB Getting connected devices
+dbug ADB Connected devices: [{"udid":"XXXXXXX","state":"device"}]
+┌─────────────────────────────┬──────────────────┐
+│ (index)                     │ Values           │
+├─────────────────────────────┼──────────────────┤
+│ deviceId                    │ 'XXXXXXX' │
+│ yadbPushed                  │ false            │
+│ devicePixelRatio            │ 1                │
+│ devicePixelRatioInitialized │ false            │
+│ adb                         │ null             │
+│ connectingAdb               │ null             │
+│ destroyed                   │ false            │
+│ description                 │ undefined        │
+│ customActions               │ undefined        │
+│ cachedScreenSize            │ null             │
+│ cachedOrientation           │ null             │
+│ cachedPhysicalDisplayId     │ undefined        │
+│ scrcpyAdapter               │ null             │
+│ appNameMapping              │                  │
+│ cachedAdjustScale           │ null             │
+│ takeScreenshotFailCount     │ 0                │
+│ interfaceType               │ 'android'        │
+│ uri                         │ undefined        │
+│ options                     │ undefined        │
+└─────────────────────────────┴──────────────────┘
+Midscene - report will be generated at: D:\workSpace\midscene\midscene_run\report\android-2026-04-14_21-37-46-566dedcf.html
+dbug ADB Setting device id to XXXXXXX
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell wm size'
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell 'dumpsys input | grep SurfaceOrientation''
+Midscene - report generated: D:\workSpace\midscene\midscene_run\report\android-2026-04-14_21-37-46-566dedcf.html
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell wm density'
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell 'input swipe 915 1875 915 1875 150''
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell 'input swipe 99 220 99 220 150''
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell 'input swipe 184 1078 184 1078 150''
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell 'input swipe 401 217 401 217 150''
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell mkdir -p /data/local'
+dbug ADB Running 'adb -P 5037 -s XXXXXXX push D:\workSpace\midscene\node_modules\.pnpm\@midscene+android@1.7.3\node_modules\@midscene\android\bin\yadb /data/local/tmp'
+dbug ADB Clearing up to 100 characters
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell input keyevent 67 112 67 112 67 112 67 112 67 112 67 112 67 112 67 112 67 112 67 112 67 
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell dumpsys input_method'
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell input text ebay.com'
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell dumpsys input_method'
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell input keyevent 111'
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell dumpsys input_method'
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell input keyevent 66'
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell 'input swipe 484 517 484 517 150''
+dbug ADB Clearing up to 100 characters
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell input keyevent 67 112 67 112 67 112 67 112 67 112 67 112 67 112 67 112 67 112 67 112 67 
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell dumpsys input_method'
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell input text Headphones'
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell dumpsys input_method'
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell input keyevent 111'
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell dumpsys input_method'
+dbug ADB Running 'adb -P 5037 -s XXXXXXX shell input keyevent 66'
+headphones in stock { itemTitle: 'Panasonic HT480 Made for iphone ipad', price: 375.67 }
+
+file:///D:/workSpace/midscene/node_modules/.pnpm/@midscene+core@1.7.3/node_modules/@midscene/core/src/agent/agent.ts:1248
+        throw new Error(message, {
+              ^
+Error: Assertion failed: 页面左侧有商品分类过滤选项
+Reason: 根据截图，这是一个移动端网页视图（eBay搜索结果页）。在页面的主要区域，筛选选项（如“物品状况”、“价格”）是水平排列的按钮，位于屏幕中间偏下的位置，而不是位
+于左侧侧边栏。页面左侧没有显示任何商品分类过滤选项。因此，该陈述为假。
+    at AndroidAgent.aiAssert (file:///D:/workSpace/midscene/node_modules/.pnpm/@midscene+core@1.7.3/node_modules/@midscene/core/src/agent/agent.ts:1248:15)     
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at file:///D:/workSpace/midscene/src/index.ts:1:1236
+Failed running './src/index.ts'. Waiting for file changes before restarting...
