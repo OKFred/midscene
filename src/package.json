@@ -1,0 +1,9 @@
+{
+    "scripts": {
+        "dev": "npx tsx --watch --env-file=.env ./src/index.ts"
+    },
+    "type": "module",
+    "devDependencies": {
+        "@midscene/android": "^1.7.3"
+    }
+}
