@@ -9,7 +9,7 @@ import { Steps } from "./type";
 const steps: Steps = [
   {
     action: "aiAct",
-    info: "打开浏览器并访问taobao.com",
+    info: "打开浏览器并访问alibaba.com",
     breakPoint: false,
   },
   {
@@ -19,17 +19,17 @@ const steps: Steps = [
   },
   {
     action: "aiAct",
-    info: '在搜索框中输入"耳机"，并回车',
+    info: '在搜索框中输入"banana"，并回车',
     breakPoint: false,
   },
   {
     action: "aiWaitFor",
-    info: "页面上至少出现一个耳机商品",
+    info: "页面上至少出现一个商品",
     breakPoint: false,
   },
   {
     action: "aiQuery",
-    info: "{itemTitle: string, price: Number}[]，找出列表中的商品以及对应的价格",
+    info: "{itemTitle: string, price: Number, seller: string, countryRegion: string}[]，找出列表中的商品以及对应的价格、卖家和卖家所在地，找不到字段就null",
     breakPoint: false,
   },
   {
@@ -45,7 +45,7 @@ Promise.resolve(
     const device = new AndroidDevice(devices[0].udid);
     const agent = new AndroidAgent(device, {
       aiActionContext:
-        "如果出现任何位置信息、权限、用户协议等弹窗，请点击同意。如果弹出登录页面，请关闭它。",
+        "如果出现任何位置信息、权限、用户协议等弹窗，请点击同意。如果弹出登录页面，请关闭它。输入任何文字前，请检查键盘的语言。",
     });
     await device.connect();
 
