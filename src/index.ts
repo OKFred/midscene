@@ -9,7 +9,7 @@ import { Steps } from "./type";
 const steps: Steps = [
   {
     action: "aiAct",
-    info: "打开浏览器并访问ebay.com",
+    info: "打开浏览器并访问taobao.com",
     breakPoint: false,
   },
   {
@@ -19,12 +19,12 @@ const steps: Steps = [
   },
   {
     action: "aiAct",
-    info: '在搜索框中输入"Headphones"，并回车',
+    info: '在搜索框中输入"耳机"，并回车',
     breakPoint: false,
   },
   {
     action: "aiWaitFor",
-    info: "页面上至少出现一个Headphones商品",
+    info: "页面上至少出现一个耳机商品",
     breakPoint: false,
   },
   {
