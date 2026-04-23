@@ -3,36 +3,52 @@ import {
   AndroidDevice,
   getConnectedDevices,
 } from "@midscene/android";
+import { runSteps } from "./utils/testMain";
+import { Steps } from "./type";
 
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const steps: Steps = [
+  {
+    action: "aiAct",
+    info: "打开浏览器并访问ebay.com",
+    breakPoint: false,
+  },
+  {
+    action: "aiSleep",
+    info: "5000",
+    breakPoint: false,
+  },
+  {
+    action: "aiAct",
+    info: '在搜索框中输入"Headphones"，并回车',
+    breakPoint: false,
+  },
+  {
+    action: "aiWaitFor",
+    info: "页面上至少出现一个Headphones商品",
+    breakPoint: false,
+  },
+  {
+    action: "aiQuery",
+    info: "{itemTitle: string, price: Number}[]，找出列表中的商品以及对应的价格",
+    breakPoint: false,
+  },
+  {
+    action: "aiAssert",
+    info: "页面左侧有商品分类过滤选项",
+    breakPoint: false,
+  },
+];
+
 Promise.resolve(
   (async () => {
     const devices = await getConnectedDevices();
     const device = new AndroidDevice(devices[0].udid);
-    console.table(device);
     const agent = new AndroidAgent(device, {
       aiActionContext:
         "如果出现任何位置信息、权限、用户协议等弹窗，请点击同意。如果弹出登录页面，请关闭它。",
     });
     await device.connect();
 
-    await agent.aiAct("打开浏览器并访问ebay.com");
-    await sleep(5000);
-    await agent.aiAct('在搜索框中输入"Headphones"，并回车');
-    await agent.aiWaitFor("页面上至少出现一个Headphones商品");
-
-    const items = await agent.aiQuery(
-      "{itemTitle: string, price: Number}[]，找出列表中的商品以及对应的价格",
-    );
-    console.log("在售的耳机：", items);
-    let question = "页面左侧有商品分类过滤选项";
-    let result: "YES" | "NO" | null = null;
-    try {
-      await agent.aiAssert(question);
-      result = "YES";
-    } catch (error) {
-      result = "NO";
-    }
-    console.log("result: ", question, result);
+    await runSteps(agent, steps, { initialApp: "com.android.chrome" });
   })(),
 );
