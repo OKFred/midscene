@@ -8,32 +8,32 @@ import { Steps } from "./type";
 
 const steps: Steps = [
   {
-    action: "aiAct",
+    type: "aiAct",
     info: "打开浏览器并访问alibaba.com",
     breakPoint: false,
   },
   {
-    action: "aiSleep",
+    type: "aiSleep",
     info: "5000",
     breakPoint: false,
   },
   {
-    action: "aiAct",
+    type: "aiAct",
     info: '在搜索框中输入"banana"，并回车',
     breakPoint: false,
   },
   {
-    action: "aiWaitFor",
+    type: "aiWaitFor",
     info: "页面上至少出现一个商品",
     breakPoint: false,
   },
   {
-    action: "aiQuery",
+    type: "aiQuery",
     info: "{itemTitle: string, price: Number, seller: string, countryRegion: string}[]，找出列表中的商品以及对应的价格、卖家和卖家所在地，找不到字段就null",
     breakPoint: false,
   },
   {
-    action: "aiAssert",
+    type: "aiAssert",
     info: "页面左侧有商品分类过滤选项",
     breakPoint: false,
   },
