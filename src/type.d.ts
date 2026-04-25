@@ -1,11 +1,8 @@
-import type { AndroidAgent } from "@midscene/android";
-
-export type AndroidAgentMethods = {
-  [K in keyof AndroidAgent]: AndroidAgent[K] extends Function ? K : never;
-}[keyof AndroidAgent];
+// import type { AndroidAgent } from "@midscene/android";
 
 export type Steps = Array<{
-  type: AndroidAgentMethods | "aiSleep" | "aiSwitchToApp";
+  type: "aiAct" | "aiQuery" | "aiAssert" | "aiSleep" | "aiSwitchToApp";
   info: string;
-  breakPoint: boolean;
+  breakPoint?: boolean;
+  pureLogical?: boolean;
 }>;

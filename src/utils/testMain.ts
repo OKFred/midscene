@@ -1,39 +1,41 @@
 import { AndroidAgent } from "@midscene/android";
 import { Steps } from "../type";
+import { getConnectedDevices, AndroidDevice } from "@midscene/android";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
+const hasDom = {
+  domIncluded: true,
+  screenshotIncluded: true,
+} as const;
+const noDom = {
+  domIncluded: false,
+  screenshotIncluded: false,
+} as const;
 export async function runSteps(
-  agent: AndroidAgent,
   steps: Steps,
   options?: { initialApp?: string },
 ) {
+  const devices = await getConnectedDevices();
+  const device = new AndroidDevice(devices[0].udid, {
+    scrcpyConfig: {
+      enabled: true,
+    },
+  });
+  const agent = new AndroidAgent(device, {
+    aiActionContext:
+      "如果出现任何位置信息、权限、用户协议等弹窗，请点击同意。如果弹出登录页面，请关闭它。输入任何文字前，请检查键盘的语言。",
+  });
+  await device.connect();
+
   if (options?.initialApp) {
     console.log(`[Init] Launching app: ${options.initialApp}`);
     await agent.launch(options.initialApp);
   }
   const ctx = {} as Record<string, string>;
+  let stepCount = 0;
   for (const step of steps) {
     const { type, info, breakPoint } = step;
-    if (!type) continue;
-
-    // 获取并打印详细的 DOM 摘要信息
-    try {
-      const elements = await (agent as any).device.getElementsInfo();
-      const summary = elements
-        .slice(0, 5)
-        .map((el: any) => {
-          return `${el.type}: ${el.contentDescription || el.text || "no-text"}`;
-        })
-        .join(", ");
-      console.log(
-        `[DOM] Found ${elements.length} elements. Top elements: [${summary}...]`,
-      );
-    } catch (e) {
-      console.warn("[DOM] Failed to fetch element info");
-    }
-
-    console.log(`[Step] ${type}${info ? `: ${info}` : ""}`);
+    console.log(`[Step] ${stepCount++} ${type}${info ? `: ${info}` : ""}`);
 
     try {
       if (type === "aiSleep") {
@@ -44,23 +46,36 @@ export async function runSteps(
       } else if (typeof (agent as any)[type] === "function") {
         const method = (agent as any)[type].bind(agent);
         // Handle actions that don't need arguments (like back, home)
-        if (!info && ["back", "home", "recentApps"].includes(type as string)) {
+        if (["back", "home", "recentApps"].includes(type as string)) {
           await method();
         } else {
-          const result = await method(info);
-          const key = /\{\{([^}]+)\}\}/.exec(info)?.[1] || "";
-          ctx[key] = result;
+          Object.keys(ctx).length > 0 && console.log(ctx);
+          if (type === "aiQuery") {
+            const result = await method(info);
+            const key = /\{\{([^}]+)\}\}/.exec(info)?.[1] || "";
+            /** 保存上下文 */
+            ctx[key] = result;
+          } else if (type === "aiAssert") {
+            const assertion = info + "\n上下文：" + JSON.stringify(ctx);
+            await method(
+              assertion,
+              "🔥 断言失败",
+              step.pureLogical ? noDom : hasDom,
+            );
+          } else {
+            await method(info);
+          }
         }
-      } else {
-        console.warn(`[Warning] Unknown type: ${type}`);
       }
     } catch (error) {
-      console.error(`[Error] Failed to execute ${type}:`, error);
-      throw error;
-    }
-
-    if (breakPoint) {
-      console.log("[Breakpoint] Step completed, continuing...");
+      console.error(
+        `[Error] Failed to execute ${type}:`,
+        (error as Error).message,
+      );
+      if (breakPoint) {
+        break;
+        // throw error;
+      }
     }
   }
 }

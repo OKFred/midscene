@@ -1,8 +1,3 @@
-import {
-  AndroidAgent,
-  AndroidDevice,
-  getConnectedDevices,
-} from "@midscene/android";
 import { runSteps } from "./utils/testMain";
 import { Steps } from "./type";
 
@@ -10,45 +5,41 @@ const steps: Steps = [
   {
     type: "aiAct",
     info: "打开浏览器并访问alibaba.com",
-    breakPoint: false,
   },
   {
     type: "aiSleep",
-    info: "5000",
-    breakPoint: false,
+    info: "3000",
   },
   {
     type: "aiAct",
-    info: '在搜索框中输入"banana"，并回车',
-    breakPoint: false,
+    info: '搜索关键词"banana"',
   },
   {
-    type: "aiWaitFor",
-    info: "页面上至少出现一个商品",
-    breakPoint: false,
+    type: "aiSleep",
+    info: "3000",
   },
   {
     type: "aiQuery",
-    info: "{itemTitle: string, price: Number, seller: string, countryRegion: string}[]，找出列表中的商品以及对应的价格、卖家和卖家所在地，找不到字段就null",
-    breakPoint: false,
+    info: "找出下方{{列表中的第一个商品}}对应的价格、卖家和卖家所在地。参考格式：{itemTitle: string, price: Number, seller: string, countryRegion: string}",
   },
   {
     type: "aiAssert",
     info: "页面左侧有商品分类过滤选项",
     breakPoint: false,
   },
+  {
+    type: "aiAct",
+    info: "下方列表第一个商品点进去看详情",
+  },
+  {
+    type: "aiQuery",
+    info: "找出{{详情的商品}}对应的价格、卖家和卖家所在地。参考格式：{itemTitle: string, price: Number, seller: string, countryRegion: string}",
+  },
+  {
+    type: "aiAssert",
+    info: "看{{列表中的第一个商品}}和{{详情的商品}}的信息是否匹配",
+    pureLogical: true,
+  },
 ];
 
-Promise.resolve(
-  (async () => {
-    const devices = await getConnectedDevices();
-    const device = new AndroidDevice(devices[0].udid);
-    const agent = new AndroidAgent(device, {
-      aiActionContext:
-        "如果出现任何位置信息、权限、用户协议等弹窗，请点击同意。如果弹出登录页面，请关闭它。输入任何文字前，请检查键盘的语言。",
-    });
-    await device.connect();
-
-    await runSteps(agent, steps, { initialApp: "com.android.chrome" });
-  })(),
-);
+runSteps(steps, { initialApp: "com.android.chrome" });
