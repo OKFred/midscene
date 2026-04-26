@@ -15,25 +15,21 @@ const steps: Steps = [
     info: '搜索关键词"banana"',
   },
   {
-    type: "aiSleep",
-    info: "3000",
-  },
-  {
     type: "aiQuery",
-    info: "找出下方{{列表中的第一个商品}}对应的价格、卖家和卖家所在地。参考格式：{itemTitle: string, price: Number, seller: string, countryRegion: string}",
+    info: "上方的商品是广告，查看下方的{{列表中的第一个商品}}对应的名称和价格。参考格式：{title: string, price: Number}",
   },
   {
     type: "aiAssert",
     info: "页面左侧有商品分类过滤选项",
-    breakPoint: false,
   },
   {
     type: "aiAct",
-    info: "下方列表第一个商品点进去看详情",
+    info: "上方的商品是广告，下方的列表第一个商品点进去看详情。如果需要登录，则报错退出",
+    breakPoint: true, // 可能会要求登录，导致异常
   },
   {
     type: "aiQuery",
-    info: "找出{{详情的商品}}对应的价格、卖家和卖家所在地。参考格式：{itemTitle: string, price: Number, seller: string, countryRegion: string}",
+    info: "找出{{详情的商品}}对应的名称和价格。参考格式：{title: string, price: Number}",
   },
   {
     type: "aiAssert",

@@ -51,7 +51,7 @@ export async function runSteps(
         } else {
           Object.keys(ctx).length > 0 && console.log(ctx);
           if (type === "aiQuery") {
-            const result = await method(info);
+            const result = await method(info, hasDom);
             const key = /\{\{([^}]+)\}\}/.exec(info)?.[1] || "";
             /** 保存上下文 */
             ctx[key] = result;
