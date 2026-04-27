@@ -23,7 +23,7 @@ export async function runSteps(
   });
   const agent = new AndroidAgent(device, {
     aiActionContext:
-      "如果出现任何位置信息、权限、用户协议等弹窗，请点击同意。如果弹出登录页面，请关闭它。输入任何文字前，请检查键盘的语言。",
+      "如果出现任何位置信息、权限、用户协议等弹窗，请点击同意。输入任何文字前，请检查键盘的语言。",
   });
   await device.connect();
 
