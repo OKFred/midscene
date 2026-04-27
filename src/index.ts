@@ -15,6 +15,10 @@ const steps: Steps = [
     info: '搜索关键词"banana"',
   },
   {
+    type: "aiSleep",
+    info: "3000",
+  },
+  {
     type: "aiQuery",
     info: "上方的商品是广告，查看下方的{{列表中的第一个商品}}对应的名称和价格。参考格式：{title: string, price: Number}",
   },
